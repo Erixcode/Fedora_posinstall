@@ -14,6 +14,8 @@
         #~ msg: "Erixploit is here!"
 
   roles:
+    - role: "roles/repos"
     - role: "roles/install_packages/"
     - role: "roles/customize-darkmode/"
     - role: "roles/github-apps"
+    
