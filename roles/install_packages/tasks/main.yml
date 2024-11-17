@@ -6,7 +6,7 @@
   become_method: sudo
 - name: "Copy tmux Config"
   copy:
-    src: "{{ playbook_dir }}/tmux/.tmux.conf"
+    src: "{{ playbook_dir }}/tmux/tmux.conf"
     dest: "{{ ansible_env.HOME }}"  
 - name: "install geany"
   dnf:
