@@ -1,0 +1,19 @@
+---
+- name: "install Tmux"
+  dnf:
+    name: tmux
+  become: true
+  become_method: sudo
+- name: "Copy tmux Config"
+  copy:
+    src: "{{ playbook_dir }}/tmux/.tmux.conf"
+    dest: "{{ ansible_env.HOME }}"  
+- name: "install geany"
+  dnf:
+    name: geany
+  become: true
+  become_method: sudo
+- name: "Copy Geany Theme"
+  copy:
+    src: "{{ playbook_dir }}/geany/himbeere.conf"
+    dest: "{{ ansible_env.HOME }}/.config/geany/colorschemes/"  

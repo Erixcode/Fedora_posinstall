@@ -1,0 +1,20 @@
+---
+#To make this idempotent, you can first check if the setting is already applied before running the command. we could have just set it with command module
+- name: Get current GTK theme
+  shell: gsettings get org.gnome.desktop.interface gtk-theme
+  register: gtk_theme
+  environment:
+    DISPLAY: ":0"
+    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"
+
+- name: Debug the GTK theme value
+  debug:
+    msg: "The current GTK theme is: {{ gtk_theme.stdout }}"
+
+- name: Set GTK theme to Adwaita-dark if not already set
+  shell: gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
+  when: gtk_theme.stdout != "'Adwaita-dark'"
+  become: yes
+  environment:
+    DISPLAY: ":0"
+    DBUS_SESSION_BUS_ADDRESS: "unix:path=/run/user/1000/bus"

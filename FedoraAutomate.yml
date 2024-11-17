@@ -1,0 +1,19 @@
+---
+- name: "Fedora After Install Automate"
+  hosts: localhost
+  connection: local
+  become: true  # Elevate privileges to allow installation and access to /opt
+  vars:
+    nekoray_user: "erixploit"  # Replace with your desired username
+    nekoray_group: "erixploit"  # Replace with your desired groupname
+    nekoray_directory: "/opt/vpn/nekoray/"
+
+  #~ tasks:
+    #~ - name: "Hello Ansible"
+      #~ debug:
+        #~ msg: "Erixploit is here!"
+
+  roles:
+    - role: "roles/install_packages/"
+    - role: "roles/customize-darkmode/"
+    - role: "roles/github-apps"

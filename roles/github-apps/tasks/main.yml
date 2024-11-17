@@ -1,0 +1,47 @@
+---
+- name: "Check if Directory {{ nekoray_directory }} exists"
+  stat: 
+    path: "{{ nekoray_directory }}"
+  register: "nekoray_dir"
+
+- name: "Ensure {{ nekoray_directory }} is present"
+  file: 
+    path: "{{ nekoray_directory }}"
+    state: "directory"
+    mode: '0750'
+    owner: "{{ nekoray_user }}"
+    group: "{{ nekoray_group }}"
+  when: not nekoray_dir.stat.exists
+
+- name: "Check if {{ nekoray_directory }} is empty"
+  find:
+    paths: "{{ nekoray_directory }}"
+    recurse: no
+    hidden: yes
+  register: nekoray_dir_contents
+  when: nekoray_dir.stat.exists
+
+- name: "Download Nekoray Release 3.26 if directory is missing or empty"
+  get_url: 
+    url: "https://github.com/MatsuriDayo/nekoray/releases/download/3.26/nekoray-3.26-2023-12-09-linux64.zip"
+    dest: "/tmp/nekoray-3.26-linux64.zip"
+  register: download_result
+  when: not nekoray_dir.stat.exists or nekoray_dir_contents.matched == 0
+
+- name: "Unzip Nekoray Package"
+  unarchive:
+    src: "/tmp/nekoray-3.26-linux64.zip"
+    dest: "{{ nekoray_directory }}"
+    remote_src: false
+  when: download_result is changed
+
+- name: "Set ownership of {{ nekoray_directory }} to {{ nekoray_user }}:{{ nekoray_group }}"
+  file:
+    path: "{{ nekoray_directory }}"
+    state: directory
+    owner: "{{ nekoray_user }}"
+    group: "{{ nekoray_group }}"
+    mode: '0750'
+
+############################Nekoray Finished############################
+
