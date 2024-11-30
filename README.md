@@ -6,8 +6,8 @@ Before using this please do the following:
 <code>
 sudo dnf -y update
 sudo dnf install -y ansible
-</code>
-<br>
+</code><br>
+
 Including:
 - install and configure the Fedora repos, including rpm-fusion-free, rpm-fusion-nonefree and rpmsphere repos. as this is aimed for Fedora 41 the activation of openh264 library is different with older versions of Fedora.
 - install tmux, copy tmux configurations to ~/.tmux.conf file, Please change the contents inside tmux/tmux.conf to fit it as you like.
